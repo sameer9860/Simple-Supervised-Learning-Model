@@ -1,45 +1,94 @@
 {% extends "grades/base.html" %}
 {% block content %}
-<h1 class="mb-4 text-center">🎓 Student Grade Predictor</h1>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4 text-center">🎓 Student Grade Predictor</h1>
 
-<div class="card shadow-sm mb-4">
-    <div class="card-body">
-        <form method="post" class="row g-3">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Predict Grade</button>
+        <div class="card shadow-lg border-0 mb-5">
+            <div class="card-header bg-primary text-white py-3">
+                <h5 class="card-title mb-0">Input Student Details</h5>
             </div>
-        </form>
-        {% if prediction %}
-        <div class="alert alert-success mt-3">
-            Predicted Grade: <strong>{{ prediction|floatformat:2 }}</strong>
+            <div class="card-body p-4">
+                <form method="post" id="predictionForm" class="row g-3">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label fw-bold">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="text-danger small">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <div class="col-12 d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                            Predict Grade
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        {% endif %}
+
+        <h2 class="mb-3 d-flex align-items-center">
+            <span class="badge bg-dark me-2">📋</span> Student Dashboard
+        </h2>
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-striped table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Attendance</th>
+                        <th>Homework</th>
+                        <th>Test Score</th>
+                        <th>Final Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td class="fw-bold">{{ student.name }}</td>
+                        <td>{{ student.attendance }}%</td>
+                        <td>{{ student.homework }}/100</td>
+                        <td>{{ student.test_score }}/100</td>
+                        <td>
+                            <span class="badge bg-success rounded-pill px-3">{{ student.final_grade }}</span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">No student records found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<h2 class="mb-3">📋 Student Dashboard</h2>
-<table class="table table-striped table-hover shadow-sm">
-    <thead class="table-dark">
-        <tr>
-            <th>Name</th>
-            <th>Attendance</th>
-            <th>Homework</th>
-            <th>Test Score</th>
-            <th>Final Grade</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for student in students %}
-        <tr>
-            <td>{{ student.name }}</td>
-            <td>{{ student.attendance }}</td>
-            <td>{{ student.homework }}</td>
-            <td>{{ student.test_score }}</td>
-            <td>{{ student.final_grade }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        {% if prediction %}
+        const toastEl = document.getElementById('gradeToast');
+        const toast = new bootstrap.Toast(toastEl, { delay: 5000 });
+        const toastMessage = document.getElementById('toastMessage');
+
+        toastMessage.innerHTML = 'Predicted Grade for <strong>{{ form.name.value }}</strong> is: <h4 class="mb-0 mt-2">{{ prediction|floatformat:2 }}</h4>';
+        toast.show();
+
+        // Auto-clear form
+        const form = document.getElementById('predictionForm');
+        if (form) {
+            form.reset();
+        }
+        {% endif %}
+
+        // Add form-control class to all inputs
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            if (!input.classList.contains('form-check-input')) {
+                input.classList.add('form-control');
+            }
+        });
+    });
+</script>
 {% endblock %}
