@@ -2,7 +2,7 @@ import pandas as pd
 from django.shortcuts import render
 from .forms import StudentInputForm
 from .models import StudentGrade
-from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 
 def predict_grade(request):
@@ -33,7 +33,7 @@ def predict_grade(request):
                     X = df[["attendance", "homework", "test_score"]]
                     y = df["final_grade"]
                     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-                    model = LinearRegression().fit(X_train, y_train)
+                    model = RandomForestRegressor(n_estimators=100, random_state=42).fit(X_train, y_train)
 
                     # Predict new student
                     new_student = pd.DataFrame([[
@@ -43,7 +43,7 @@ def predict_grade(request):
                     ]], columns=["attendance", "homework", "test_score"])
 
                     prediction = model.predict(new_student)[0]
-                    prediction = round(prediction)  # Consistent rounding
+                    prediction = max(0, min(100, round(prediction)))  # Cap between 0-100 and round
 
                     # Save student with predicted grade
                     StudentGrade.objects.create(
