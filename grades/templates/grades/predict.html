@@ -1,18 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Predict Student Grade</title>
-</head>
-<body>
-    <h1>Predict Student Grade</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Predict</button>
-    </form>
+{% extends "grades/base.html" %}
+{% block content %}
+<h1 class="mb-4 text-center">🎓 Student Grade Predictor</h1>
 
-    {% if prediction %}
-        <h2>Predicted Grade: {{ prediction|floatformat:2 }}</h2>
-    {% endif %}
-</body>
-</html>
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form method="post" class="row g-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Predict Grade</button>
+            </div>
+        </form>
+        {% if prediction %}
+        <div class="alert alert-success mt-3">
+            Predicted Grade: <strong>{{ prediction|floatformat:2 }}</strong>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<h2 class="mb-3">📋 Student Dashboard</h2>
+<table class="table table-striped table-hover shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Attendance</th>
+            <th>Homework</th>
+            <th>Test Score</th>
+            <th>Final Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.attendance }}</td>
+            <td>{{ student.homework }}</td>
+            <td>{{ student.test_score }}</td>
+            <td>{{ student.final_grade }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
