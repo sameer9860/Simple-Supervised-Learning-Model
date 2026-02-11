@@ -67,7 +67,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        {% if prediction %}
+        {% if prediction is not None %}
         const toastEl = document.getElementById('gradeToast');
         const toast = new bootstrap.Toast(toastEl, { delay: 3000 }); // auto-hide after 3s
         const toastMessage = document.getElementById('toastMessage');
@@ -81,7 +81,11 @@
         // Auto-clear form
         const form = document.getElementById('predictionForm');
         if (form) {
-            form.reset();
+            form.querySelectorAll('input, select, textarea').forEach(input => {
+                if (input.type !== 'submit' && input.type !== 'hidden' && input.name !== 'csrfmiddlewaretoken') {
+                    input.value = '';
+                }
+            });
         }
         {% endif %}
 
