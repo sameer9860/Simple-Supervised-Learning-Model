@@ -55,7 +55,7 @@ ROOT_URLCONF = 'SuperLearning.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'grades' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
