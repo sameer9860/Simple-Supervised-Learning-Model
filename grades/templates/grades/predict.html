@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predict Student Grade</title>
+</head>
+<body>
+    <h1>Predict Student Grade</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+        <h2>Predicted Grade: {{ prediction|floatformat:2 }}</h2>
+    {% endif %}
+</body>
+</html>
