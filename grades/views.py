@@ -29,7 +29,7 @@ def predict_grade(request):
                 df = pd.DataFrame(list(qs))
 
                 if not df.empty:
-                    # Train model
+                    # Train model(Supervised Training Model)
                     X = df[["attendance", "homework", "test_score"]]
                     y = df["final_grade"]
                     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)

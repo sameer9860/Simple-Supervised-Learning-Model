@@ -23,7 +23,7 @@ y = df["final_grade"]
 # Train/test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-# Train models
+# Train models(Supervised Training Model)
 lin_model = LinearRegression().fit(X_train, y_train)
 rf_model = RandomForestRegressor(n_estimators=100, random_state=42).fit(X_train, y_train)
 
