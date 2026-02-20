@@ -41,7 +41,9 @@ The system can be used both as a web application and as a standalone analysis sc
 
 ![Records History](Screenshots/sgp3.png)
 
+### Student Records History
 
+![Records History](Screenshots/sgp4.png)
 
 ## 🔧 Setup & Installation
 
