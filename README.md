@@ -27,14 +27,21 @@ The system can be used both as a web application and as a standalone analysis sc
 - **Standalone ML Script:** `ml_model.py` provides a direct way to train, evaluate (R² Score), and test the models without the web interface.
 - **Automatic Data Persistence:** Predicted grades and student inputs are automatically saved to the database.
 
-## 📂 Project Structure
+## �️ Screenshots
 
-- `SuperLearning/`: Project configuration and settings.
-- `grades/`: Main app containing web views, models, and forms.
-  - `templates/grades/`: HTML templates for the interactive dashboard.
-- `ml_model.py`: Standalone script for training and evaluating the Random Forest and Linear Regression models.
-- `db.sqlite3`: Local database storing student records.
-- `requirements.txt`: Python dependencies.
+### Grade Prediction Dashboard
+
+![Dashboard Interface](Screenshots/sgp.png)
+
+### Prediction Results
+
+![Results Display](Screenshots/sgp2.png)
+
+### Student Records History
+
+![Records History](Screenshots/sgp3.png)
+
+
 
 ## 🔧 Setup & Installation
 
