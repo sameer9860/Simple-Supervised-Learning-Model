@@ -50,15 +50,15 @@ The system can be used both as a web application and as a standalone analysis sc
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd SupervisedLearningModule
+git clone https://github.com/sameer9860/Simple-Supervised-Learning-Model.git
+cd Simple-Supervised-Learning-Model then again cd SupervisedLearningModule
 ```
 
 ### 2. Set up a Virtual Environment
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate(Linux/Mac)     # On Windows: venv\Scripts\activate
 ```
 
 ### 3. Install Dependencies
